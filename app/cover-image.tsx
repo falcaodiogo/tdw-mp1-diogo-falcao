@@ -9,11 +9,11 @@ export default function CoverImage({
   title,
   url,
   slug,
-}: {
+}: Readonly<{
   title: string;
   url: string;
   slug?: string;
-}) {
+}>) {
   const image = (
     <ContentfulImage
       alt={`Cover Image for ${title}`}
