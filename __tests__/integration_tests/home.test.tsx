@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import HomePage from '../app/page';
+import HomePage from '../../app/page';
 import '@testing-library/jest-dom';
 
 // Mock the dependencies
@@ -12,7 +12,7 @@ jest.mock('@/lib/api', () => ({
   getAllPosts: jest.fn(),
 }));
 
-jest.mock('../app/more-stories', () => ({
+jest.mock('../../app/more-stories', () => ({
   __esModule: true,
   default: jest.fn(({ morePosts }) => (
     <div data-testid="more-stories">
@@ -21,17 +21,17 @@ jest.mock('../app/more-stories', () => ({
   ))
 }));
 
-jest.mock('../app/avatar', () => ({
+jest.mock('../../app/avatar', () => ({
   __esModule: true,
   default: jest.fn(() => <div data-testid="avatar">Avatar Component</div>)
 }));
 
-jest.mock('../app/date', () => ({
+jest.mock('../../app/date', () => ({
   __esModule: true,
   default: jest.fn(() => <div data-testid="date">Date Component</div>)
 }));
 
-jest.mock('../app/cover-image', () => ({
+jest.mock('../../app/cover-image', () => ({
   __esModule: true,
   default: jest.fn(() => <div data-testid="cover-image">Cover Image Component</div>)
 }));
@@ -43,35 +43,35 @@ jest.mock('@/lib/constants', () => ({
 
 const mockPosts = [
   {
-    title: 'Hero Post Title',
-    slug: 'hero-post',
-    coverImage: { url: 'https://example.com/hero.jpg' },
+    title: 'Gemini Post Title',
+    slug: 'gemini-post',
+    coverImage: { url: 'https://example.com/gemini.jpg' },
     date: '2025-10-13',
-    excerpt: 'This is the hero post excerpt',
+    excerpt: 'This is the gemini post excerpt',
     author: {
-      name: 'John Doe',
+      name: 'CEO of Gemini or Google or Whatever',
       picture: 'https://example.com/avatar.jpg',
     },
   },
   {
-    title: 'Second Post Title',
+    title: 'Google Pixel Post Title',
     slug: 'second-post',
     coverImage: { url: 'https://example.com/second.jpg' },
     date: '2025-10-12',
-    excerpt: 'This is the second post excerpt',
+    excerpt: 'This is the Google Pixel post excerpt',
     author: {
-      name: 'Jane Smith',
+      name: 'Google yey',
       picture: 'https://example.com/avatar2.jpg',
     },
   },
   {
-    title: 'Third Post Title',
+    title: 'Pixel 9 Pro XL Post Title',
     slug: 'third-post',
     coverImage: { url: 'https://example.com/third.jpg' },
     date: '2025-10-11',
-    excerpt: 'This is the third post excerpt',
+    excerpt: 'This is the Pixel 9 Pro XL post excerpt',
     author: {
-      name: 'Bob Johnson',
+      name: 'Love Pixel',
       picture: 'https://example.com/avatar3.jpg',
     },
   },
@@ -108,8 +108,8 @@ describe('HomePage', () => {
     render(await HomePage());
 
     // Check hero post
-    expect(screen.getByText('Hero Post Title')).toBeInTheDocument();
-    expect(screen.getByText('This is the hero post excerpt')).toBeInTheDocument();
+    expect(screen.getByText('Gemini Post Title')).toBeInTheDocument();
+    expect(screen.getByText('This is the gemini post excerpt')).toBeInTheDocument();
     
     // Check that hero post elements are rendered
     expect(screen.getByTestId('cover-image')).toBeInTheDocument();
@@ -152,8 +152,8 @@ describe('HomePage', () => {
 
     render(await HomePage());
 
-    const heroPostLink = screen.getByRole('link', { name: 'Hero Post Title' });
-    expect(heroPostLink).toHaveAttribute('href', '/posts/hero-post');
+    const heroPostLink = screen.getByRole('link', { name: 'Gemini Post Title' });
+    expect(heroPostLink).toHaveAttribute('href', '/posts/gemini-post');
   });
 
   test('handles draft mode correctly', async () => {
@@ -167,6 +167,6 @@ describe('HomePage', () => {
 
     // Verify that getAllPosts was called with draft mode enabled
     expect(getAllPosts).toHaveBeenCalledWith(true);
-    expect(screen.getByText('Hero Post Title')).toBeInTheDocument();
+    expect(screen.getByText('Gemini Post Title')).toBeInTheDocument();
   });
 });

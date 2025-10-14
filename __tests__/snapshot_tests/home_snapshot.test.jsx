@@ -8,7 +8,7 @@ jest.mock('next/headers', () => ({
 }));
 
 // Mock the API
-jest.mock('../lib/api', () => ({
+jest.mock('../../lib/api', () => ({
   getAllPosts: jest.fn().mockResolvedValue([
     {
       title: 'Test Hero Post',
@@ -38,14 +38,14 @@ jest.mock('../lib/api', () => ({
 }));
 
 // Mock child components
-jest.mock('../app/cover-image', () => ({
+jest.mock('../../app/cover-image', () => ({
   __esModule: true,
   default: function MockCoverImage({ title, slug, url }) {
     return <img src={url} alt={title} data-testid="cover-image" />;
   },
 }));
 
-jest.mock('../app/avatar', () => ({
+jest.mock('../../app/avatar', () => ({
   __esModule: true,
   default: function MockAvatar({ name, picture }) {
     return (
@@ -57,14 +57,14 @@ jest.mock('../app/avatar', () => ({
   },
 }));
 
-jest.mock('../app/date', () => ({
+jest.mock('../../app/date', () => ({
   __esModule: true,
   default: function MockDate({ dateString }) {
     return <time dateTime={dateString}>Mocked: {dateString}</time>;
   },
 }));
 
-jest.mock('../app/more-stories', () => ({
+jest.mock('../../app/more-stories', () => ({
   __esModule: true,
   default: function MockMoreStories({ morePosts }) {
     return (
@@ -78,7 +78,7 @@ jest.mock('../app/more-stories', () => ({
 }));
 
 // Import Home after all mocks are set up
-import Home from '../app/page';
+import Home from '../../app/page';
 
 describe('Home Page', () => {
   beforeEach(() => {
@@ -93,7 +93,7 @@ describe('Home Page', () => {
 
   it('matches snapshot when no posts are found', async () => {
     // Get the mocked function and override it for this test
-    const { getAllPosts } = await import('../lib/api');
+    const { getAllPosts } = await import('../../lib/api');
     getAllPosts.mockResolvedValueOnce([]);
     
     const HomePage = await Home();

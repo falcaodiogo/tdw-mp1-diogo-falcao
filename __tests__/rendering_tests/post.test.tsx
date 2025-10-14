@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import PostPage from '../app/posts/[slug]/page';
+import PostPage from '../../app/posts/[slug]/page';
 import '@testing-library/jest-dom';
 
 // Mock the dependencies
@@ -12,22 +12,22 @@ jest.mock('@/lib/api', () => ({
   getPostAndMorePosts: jest.fn(),
 }));
 
-jest.mock('../app/more-stories', () => ({
+jest.mock('../../app/more-stories', () => ({
   __esModule: true,
   default: jest.fn(() => <div>More Stories</div>)
 }));
 
-jest.mock('../app/avatar', () => ({
+jest.mock('../../app/avatar', () => ({
   __esModule: true,
   default: jest.fn(() => <div>Avatar</div>)
 }));
 
-jest.mock('../app/date', () => ({
+jest.mock('../../app/date', () => ({
   __esModule: true,
   default: jest.fn(() => <div>Date Component</div>)
 }));
 
-jest.mock('../app/cover-image', () => ({
+jest.mock('../../app/cover-image', () => ({
   __esModule: true,
   default: jest.fn(() => <div>Cover Image</div>)
 }));
@@ -40,14 +40,14 @@ jest.mock('@/lib/markdown', () => ({
 const mockPost = {
   title: 'Test Post Title',
   author: {
-    name: 'John Doe',
+    name: 'Diogo Falcãoaoaoaoa',
     picture: 'https://example.com/avatar.jpg',
   },
   coverImage: {
     url: 'https://example.com/cover.jpg',
   },
   date: '2025-10-13',
-  content: 'This is the post content',
+  content: 'This is the best post like ever',
 };
 
 const mockMorePosts = [

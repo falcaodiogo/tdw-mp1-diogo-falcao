@@ -1,4 +1,4 @@
-import { getAllPosts } from '../lib/api';
+import { getAllPosts } from '../../lib/api';
 
 // Mock global fetch
 global.fetch = jest.fn();
@@ -12,7 +12,7 @@ const mockResponse = {
           title: 'My First Post',
           coverImage: { url: 'https://example.com/image.jpg' },
           date: '2025-10-13',
-          author: { name: 'John Doe', picture: { url: 'https://example.com/pic.jpg' } },
+          author: { name: 'Diogo Falcão', picture: { url: 'https://diogo.com/pic.jpg' } },
           excerpt: 'This is an excerpt.',
           content: { json: {} },
         },

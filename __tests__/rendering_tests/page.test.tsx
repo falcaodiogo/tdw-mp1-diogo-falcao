@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import Page from '../app/page';
-import * as api from '../lib/api';
+import Page from '../../app/page';
+import * as api from '../../lib/api';
 import { draftMode } from 'next/headers';
 import '@testing-library/jest-dom';
 
@@ -9,7 +9,7 @@ jest.mock('next/headers', () => ({
   draftMode: jest.fn(),
 }));
 
-jest.mock('../lib/api', () => ({
+jest.mock('../../lib/api', () => ({
   getAllPosts: jest.fn(),
 }));
 
@@ -35,7 +35,7 @@ describe('Page component', () => {
         title: 'My First Post',
         date: '2025-10-13',
         excerpt: 'Hello world',
-        author: { name: 'John Doe', picture: { url: 'pic.jpg' } },
+        author: { name: 'Diogo Falcão', picture: { url: 'pic.jpg' } },
         coverImage: { url: 'cover.jpg' },
       },
     ]);
