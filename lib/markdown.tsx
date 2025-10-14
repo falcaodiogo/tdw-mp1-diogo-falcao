@@ -17,7 +17,7 @@ interface AssetLink {
   block: Asset[];
 }
 
-interface Content {
+export interface Content {
   json: import("@contentful/rich-text-types").Document;
   links: {
     assets: AssetLink;

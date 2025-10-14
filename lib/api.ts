@@ -1,3 +1,5 @@
+import { Content } from "@/lib/markdown";
+
 const POST_GRAPHQL_FIELDS = `
   slug
   title
@@ -52,7 +54,7 @@ interface Post {
     picture: { url: string };
   };
   excerpt: string;
-  content: { json: Record<string, unknown> };
+  content: Content;
 }
 
 function extractPost(fetchResponse: {
