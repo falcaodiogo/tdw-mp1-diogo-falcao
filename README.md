@@ -2,6 +2,51 @@
 
 This example showcases Next.js's [Static Generation](https://nextjs.org/docs/basic-features/pages) feature using [Contentful](https://www.contentful.com/) as the data source.
 
+## Note for report:
+
+```bash
+Lint Errors:
+
+./app/avatar.tsx
+8:12  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/cover-image.tsx
+4:25  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/layout.tsx
+3:10  Warning: 'EXAMPLE_PATH' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/more-stories.tsx
+15:15  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+18:11  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+40:65  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/page.tsx
+46:15  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+49:11  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./lib/api.ts
+22:70  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+41:37  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+41:43  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+45:44  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+45:50  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+53:74  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+67:66  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+86:12  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./lib/contentful-image.tsx
+9:18  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./lib/markdown.tsx
+18:9  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+43:39  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./lib/setup.js
+1:21  Error: A `require()` style import is forbidden.  @typescript-eslint/no-require-imports
+2:20  Error: A `require()` style import is forbidden.  @typescript-eslint/no-require-imports
+```
+
 ## Demo
 
 ### [https://github.com/deca-ua/mp1-template-david/]
