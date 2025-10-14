@@ -1,5 +1,3 @@
-// __tests__/home_snapshot.test.jsx
-import React from 'react';
 import { render } from '@testing-library/react';
 
 // Mock next/headers with a direct function
