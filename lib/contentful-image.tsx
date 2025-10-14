@@ -6,13 +6,23 @@ interface ContentfulImageProps {
   src: string;
   width?: number;
   quality?: number;
-  [key: string]: any; // For other props that might be passed
+  alt: string;
+  [key: string]: unknown;
 }
 
-const contentfulLoader = ({ src, width, quality }: ContentfulImageProps) => {
+const contentfulLoader = ({
+  src,
+  width,
+  quality,
+}: {
+  src: string;
+  width: number;
+  quality?: number;
+}) => {
   return `${src}?w=${width}&q=${quality || 75}`;
 };
 
 export default function ContentfulImage(props: ContentfulImageProps) {
-  return <Image alt={props.alt} loader={contentfulLoader} {...props} />;
+  const { alt, ...rest } = props;
+  return <Image alt={alt} loader={contentfulLoader} {...rest} />;
 }

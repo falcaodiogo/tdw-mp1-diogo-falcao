@@ -43,10 +43,14 @@ function HeroPost({
   slug,
 }: Readonly<{
   title: string;
-  coverImage: any;
+  coverImage: { url: string };
   date: string;
   excerpt: string;
-  author: any;
+  author: {
+    picture: { url: string };
+    name: string;
+    url?: string;
+  };
   slug: string;
 }>) {
   return (
@@ -88,7 +92,13 @@ export default async function Page() {
   }
 
   const heroPost = allPosts[0];
-  const morePosts = allPosts.slice(1);
+  const morePosts = allPosts.slice(1).map((post) => ({
+    ...post,
+    author: {
+      ...post.author,
+      url: post.author.url || "",
+    },
+  }));
 
   return (
     <div className="container mx-auto px-5">

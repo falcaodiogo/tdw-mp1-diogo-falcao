@@ -10,14 +10,18 @@ function PostPreview({
   excerpt,
   author,
   slug,
-}: {
+}: Readonly<{
   title: string;
-  coverImage: any;
+  coverImage: { url: string };
   date: string;
   excerpt: string;
-  author: any;
+  author: {
+    picture: { url: string };
+    name: string;
+    url: string;
+  };
   slug: string;
-}) {
+}>) {
   return (
     <div>
       <div className="mb-5">
@@ -37,7 +41,22 @@ function PostPreview({
   );
 }
 
-export default function MoreStories({ morePosts }: { morePosts: any[] }) {
+export default function MoreStories({
+  morePosts,
+}: Readonly<{
+  morePosts: Array<{
+    title: string;
+    coverImage: { url: string };
+    date: string;
+    excerpt: string;
+    author: {
+      picture: { url: string };
+      name: string;
+      url: string;
+    };
+    slug: string;
+  }>;
+}>) {
   return (
     <section>
       <h2 className="mb-8 text-6xl md:text-7xl font-bold tracking-tighter leading-tight">

@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
-import { EXAMPLE_PATH, CMS_NAME } from "@/lib/constants";
+import { CMS_NAME } from "@/lib/constants";
 
 export const metadata = {
   title: `Next.js and ${CMS_NAME} Example`,
@@ -43,9 +43,9 @@ function Footer() {
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="en" className={inter.variable}>
       <body suppressHydrationWarning={true}>
