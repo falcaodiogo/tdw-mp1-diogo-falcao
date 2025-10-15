@@ -134,7 +134,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: nextjs-build
-        path: . # This will extract to the current workspace directory
+        path: .
 
     - name: List files for debugging
       run: ls -la
