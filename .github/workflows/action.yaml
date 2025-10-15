@@ -27,8 +27,7 @@ jobs:
           path: |
             node_modules
             ~/.npm
-            .next/cache  # If using Next.js
-            .cache       # If using other frameworks
+            .next/cache
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
@@ -103,5 +102,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-output
-          path: .next/
+          path: .next/**
           retention-days: 7
