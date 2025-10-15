@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: latest
+          node-version: 18
           cache: "npm"
 
       - name: Install Dependencies
@@ -39,7 +39,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: latest
+          node-version: 18
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
 
@@ -72,7 +72,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: latest
+          node-version: 18
           cache: "npm"
 
       - name: Cache node_modules
@@ -101,8 +101,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
-          cache: "npm"
+          node-version:18       cache: "npm"
 
       - name: Install dependencies
         run: npm install
@@ -138,9 +137,6 @@ jobs:
 
       - name: Install Netlify CLI
         run: npm install -g netlify-cli
-
-      - name: Install dependencies
-        run: npm install
 
       - name: Deploy to Netlify
         run: |
