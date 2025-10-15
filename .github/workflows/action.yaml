@@ -93,7 +93,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    needs: [husky, lint, tests]
+    needs: [quality-checks, tests]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -101,40 +101,39 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: latest
+          node-version: 18
           cache: "npm"
-          cache-dependency-path: "**/package-lock.json"
 
       - name: Install dependencies
         run: npm install
 
       - name: Build project
         run: npm run build
+        env:
+          CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
+          CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
+          CONTENTFUL_ENVIRONMENT: ${{ secrets.CONTENTFUL_ENVIRONMENT || 'master' }}
 
-      - name: Verify build output
+      - name: Debug build output
         run: |
-          echo "Checking build directory..."
-          if [ -d ".next" ]; then
-            echo "✅ .next directory exists"
-            ls -la .next/
-            echo "Build size:"
-            du -sh .next/
-          else
-            echo "❌ .next directory not found"
-            ls -la
-            exit 1
-          fi
+          echo "=== Current directory ==="
+          pwd
+          echo "=== All files and directories ==="
+          ls -la
+          echo "=== .next directory contents ==="
+          ls -la .next/ || echo "No .next directory"
+          echo "=== Size of .next ==="
+          du -sh .next/ || echo "Cannot check size"
 
-      - name: Upload build artifacts
+      - name: Upload build artifacts (FIXED)
         uses: actions/upload-artifact@v4
         with:
-          name: build-output
+          name: nextjs-build
           path: |
-            .next/**
-            public/**
+            .next
+            public
             package.json
             next.config.js
-          if-no-files-found: error
           retention-days: 7
 
   deploy:
@@ -145,28 +144,25 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: build-output
-          path: ./downloaded-build
+          name: nextjs-build
+          path: ./deploy-build
 
       - name: Verify downloaded artifacts
         run: |
-          echo "Downloaded artifacts:"
-          ls -la ./downloaded-build/
-          [ -d "./downloaded-build/.next" ] && echo "✅ .next found in artifacts" || echo "❌ .next missing from artifacts"
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: latest
-          cache: "npm"
+          echo "=== Downloaded artifacts structure ==="
+          ls -la ./deploy-build/
+          echo "=== Checking for .next ==="
+          find ./deploy-build -name ".next" -type d
+          [ -d "./deploy-build/.next" ] && echo "✅ .next FOUND!" || echo "❌ .next NOT FOUND"
 
       - name: Install Netlify CLI
         run: npm install -g netlify-cli
 
       - name: Deploy to Netlify
         run: |
+          cd ./deploy-build
           npx netlify deploy \
             --site ${{ secrets.NETLIFY_SITE_ID }} \
             --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} \
             --prod \
-            --dir=./downloaded-build/.next
+            --dir=.next
