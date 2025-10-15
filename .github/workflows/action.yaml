@@ -126,23 +126,30 @@ jobs:
           retention-days: 7
 
   deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: nextjs-build
-          path: ./deploy-build
+  runs-on: ubuntu-latest
+  needs: build
+  if: github.ref == 'refs/heads/main'
+  steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: nextjs-build
+        path: . # This will extract to the current workspace directory
 
-      - name: Install Netlify CLI
-        run: npm install -g netlify-cli
+    - name: List files for debugging
+      run: ls -la
 
-      - name: Deploy to Netlify
-        run: |
-          npx netlify deploy \
-            --site ${{ secrets.NETLIFY_SITE_ID }} \
-            --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} \
-            --prod \
-            --dir=./deploy-build/.next
+    - name: Install Netlify CLI
+      run: npm install -g netlify-cli
+
+    - name: Deploy to Netlify
+      run: |
+        npx netlify deploy \
+          --site ${{ secrets.NETLIFY_SITE_ID }} \
+          --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} \
+          --prod \
+          --dir=.next
+      env:
+        CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
+        CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
+        CONTENTFUL_ENVIRONMENT: ${{ secrets.CONTENTFUL_ENVIRONMENT || 'master' }}
