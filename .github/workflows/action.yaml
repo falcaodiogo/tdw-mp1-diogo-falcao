@@ -136,9 +136,6 @@ jobs:
           name: nextjs-build
           path: .
 
-      - name: List files for debugging
-        run: ls -la
-
       - name: Install Netlify CLI
         run: npm install -g netlify-cli
 
