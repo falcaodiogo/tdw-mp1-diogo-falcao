@@ -114,18 +114,8 @@ jobs:
           CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
           CONTENTFUL_ENVIRONMENT: ${{ secrets.CONTENTFUL_ENVIRONMENT || 'master' }}
 
-      - name: Debug build output
-        run: |
-          echo "=== Current directory ==="
-          pwd
-          echo "=== All files and directories ==="
-          ls -la
-          echo "=== .next directory contents ==="
-          ls -la .next/ || echo "No .next directory"
-          echo "=== Size of .next ==="
-          du -sh .next/ || echo "Cannot check size"
 
-      - name: Upload build artifacts (FIXED)
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: nextjs-build
@@ -144,25 +134,16 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: nextjs-build
-          path: ./deploy-build
+          bun-version: latest
 
-      - name: Verify downloaded artifacts
-        run: |
-          echo "=== Downloaded artifacts structure ==="
-          ls -la ./deploy-build/
-          echo "=== Checking for .next ==="
-          find ./deploy-build -name ".next" -type d
-          [ -d "./deploy-build/.next" ] && echo "✅ .next FOUND!" || echo "❌ .next NOT FOUND"
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
 
       - name: Install Netlify CLI
         run: npm install -g netlify-cli
 
       - name: Deploy to Netlify
-        run: |
-          cd ./deploy-build
-          npx netlify deploy \
-            --site ${{ secrets.NETLIFY_SITE_ID }} \
-            --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} \
-            --prod \
-            --dir=.next
+        run: npx netlify-cli deploy --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --prod
