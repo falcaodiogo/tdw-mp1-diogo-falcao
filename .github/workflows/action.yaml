@@ -9,10 +9,32 @@ on:
       - "**"
 
 jobs:
+  husky:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+          cache: "npm"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Husky hooks
+        run: |
+          npx husky run pre-commit
+
   lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
