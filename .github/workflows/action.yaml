@@ -12,17 +12,17 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v4
         with:
           node-version: latest
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
 
       - name: Cache node_modules
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -34,7 +34,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install Dependencies
-        run: npm ci # Use npm ci for cleaner, reproducible installs
+        run: npm ci
 
       - name: Run Prettier
         run: npx prettier --check .
@@ -46,16 +46,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v4
         with:
           node-version: latest
           cache: "npm"
 
       - name: Cache node_modules
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -75,16 +75,16 @@ jobs:
     needs: [lint, tests]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v4
         with:
           node-version: latest
           cache: "npm"
 
       - name: Cache node_modules
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -100,8 +100,8 @@ jobs:
         run: npm run build
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
           name: build-output
-          path: dist/
+          path: .next/
           retention-days: 7
