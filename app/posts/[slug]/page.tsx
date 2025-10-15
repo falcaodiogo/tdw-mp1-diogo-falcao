@@ -51,7 +51,10 @@ export default async function PostPage({
             <div className="mx-auto max-w-2xl">
               <div className="mb-6 block md:hidden">
                 {post.author && (
-                  <Avatar name={post.author.name} picture={post.author.picture} />
+                  <Avatar
+                    name={post.author.name}
+                    picture={post.author.picture}
+                  />
                 )}
               </div>
               <div className="mb-6 text-lg">
