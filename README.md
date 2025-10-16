@@ -4,6 +4,8 @@ This example showcases Next.js's [Static Generation](https://nextjs.org/docs/bas
 
 ## Note for report:
 
+[![Husky, Prettier, Lint, Jest, Build, Deploy](https://github.com/falcaodiogo/tdw-mp1-diogo-falcao/actions/workflows/action.yaml/badge.svg)](https://github.com/falcaodiogo/tdw-mp1-diogo-falcao/actions/workflows/action.yaml)
+
 ```bash
 Lint Errors:
 
