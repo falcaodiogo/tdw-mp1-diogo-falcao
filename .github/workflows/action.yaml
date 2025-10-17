@@ -7,6 +7,10 @@ on:
   pull_request:
     branches:
       - "**"
+  schedule:
+    - cron: "0 0 * * *"
+  repository_dispatch:
+    types: [contentful-update]
 
 jobs:
   husky:
@@ -148,7 +152,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.event_name == 'schedule' || github.event_name == 'repository_dispatch'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
