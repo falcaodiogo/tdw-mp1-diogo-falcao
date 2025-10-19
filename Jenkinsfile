@@ -93,6 +93,7 @@ pipeline {
                 branch 'main'
                 expression { params.TRIGGERED_BY == 'scheduled' }
                 expression { params.TRIGGERED_BY == 'manual' }
+                expression { params.TRIGGERED_BY == 'contentful' }
             }
         }
         steps {
