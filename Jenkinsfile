@@ -3,7 +3,6 @@ pipeline {
     
     triggers {
         cron('H 0 * * *')
-        githubPush()
     }
     
     parameters {
@@ -19,16 +18,10 @@ pipeline {
             steps {
                 script {
                     checkout scm
-                    // Copy the .env.local secret file to workspace
                     withCredentials([file(credentialsId: 'adfb10f9-7976-45b2-a754-25a9ac84adab', variable: 'ENV_FILE')]) {
                         sh '''
                             cp $ENV_FILE .env.local
-                            echo "✅ .env.local file copied successfully"
-                            # Optional: Verify the file was created (don't print sensitive content)
-                            if [ -f .env.local ]; then
-                                echo "📄 .env.local exists with $(wc -l < .env.local) lines"
-                            else
-                                echo "❌ .env.local was not created"
+                            if [ ! -f .env.local ]; then
                                 exit 1
                             fi
                         '''
@@ -93,7 +86,6 @@ pipeline {
                 branch 'main'
                 expression { params.TRIGGERED_BY == 'scheduled' }
                 expression { params.TRIGGERED_BY == 'manual' }
-                expression { params.TRIGGERED_BY == 'contentful' }
             }
         }
         steps {
@@ -115,11 +107,9 @@ pipeline {
     
     post {
         always {
-            // Clean up sensitive file
             sh '''
                 if [ -f .env.local ]; then
                     rm .env.local
-                    echo "🧹 .env.local cleaned up"
                 fi
             '''
             cleanWs()
