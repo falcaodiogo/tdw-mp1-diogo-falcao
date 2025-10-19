@@ -1,6 +1,5 @@
 pipeline {
     agent any
-    tools {nodejs "my-nodejs"}
     
     triggers {
         cron('H 0 * * *')
