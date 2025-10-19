@@ -19,7 +19,7 @@ pipeline {
                 script {
                     checkout scm
                     // Copy the .env.local secret file to workspace
-                    withCredentials([file(credentialsId: 'dd6abc0b-d187-4ed1-a00d-3c9dd23500d6', variable: 'ENV_FILE')]) {
+                    withCredentials([file(credentialsId: 'adfb10f9-7976-45b2-a754-25a9ac84adab', variable: 'ENV_FILE')]) {
                         sh '''
                             cp $ENV_FILE .env.local
                             echo "✅ .env.local file copied successfully"
