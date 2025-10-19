@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     checkout scm
-                    withCredentials([file(credentialsId: 'adfb10f9-7976-45b2-a754-25a9ac84adab', variable: 'ENV_FILE')]) {
+                    withCredentials([file(credentialsId: 'f4512677-b6f6-449c-9083-1003dbf1cd39', variable: 'ENV_FILE')]) {
                         sh '''
                             cp $ENV_FILE .env.local
                             if [ ! -f .env.local ]; then
