@@ -87,28 +87,28 @@ pipeline {
         }
         
         stage('Deploy') {
-            when {
-                anyOf {
-                    branch 'main'
-                    expression { params.TRIGGERED_BY == 'scheduled' }
-                    expression { params.TRIGGERED_BY == 'manual' }
-                }
+        when {
+            anyOf {
+                branch 'main'
+                expression { params.TRIGGERED_BY == 'scheduled' }
+                expression { params.TRIGGERED_BY == 'manual' }
             }
-            steps {
-                script {
-                    withCredentials([
-                        string(credentialsId: 'NETLIFY_SITE_ID', variable: 'NETLIFY_SITE_ID'),
-                        string(credentialsId: 'NETLIFY_AUTH_TOKEN', variable: 'NETLIFY_AUTH_TOKEN')
-                    ]) {
-                        sh '''
-                            npm install
-                            npm install -g netlify-cli
-                            npx netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod --dir=.next
-                        '''
-                    }
+        }
+        steps {
+            script {
+                withCredentials([
+                    string(credentialsId: 'NETLIFY_SITE_ID', variable: 'NETLIFY_SITE_ID'),
+                    string(credentialsId: 'NETLIFY_AUTH_TOKEN', variable: 'NETLIFY_AUTH_TOKEN')
+                ]) {
+                    sh '''
+                        npm install
+                        npm install netlify-cli --save-dev
+                        npx netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod --dir=.next
+                    '''
                 }
             }
         }
+}
     }
     
     post {
