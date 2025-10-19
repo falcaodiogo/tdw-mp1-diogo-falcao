@@ -14,17 +14,35 @@ pipeline {
     }
     
     stages {
-        stage('Husky') {
+        stage('Load Environment Variables') {
             steps {
                 script {
                     checkout scm
-                    
-                    withEnv(["NODE_VERSION=latest"]) {
+                    // Copy the .env.local secret file to workspace
+                    withCredentials([file(credentialsId: 'ddsabc0b-d187-4ed1-a00d3-c9dd2330066', variable: 'ENV_FILE')]) {
                         sh '''
-                            npm install
-                            npx husky run pre-commit
+                            cp $ENV_FILE .env.local
+                            echo "✅ .env.local file copied successfully"
+                            # Optional: Verify the file was created (don't print sensitive content)
+                            if [ -f .env.local ]; then
+                                echo "📄 .env.local exists with $(wc -l < .env.local) lines"
+                            else
+                                echo "❌ .env.local was not created"
+                                exit 1
+                            fi
                         '''
                     }
+                }
+            }
+        }
+        
+        stage('Husky') {
+            steps {
+                script {
+                    sh '''
+                        npm install
+                        npx husky run pre-commit
+                    '''
                 }
             }
         }
@@ -32,15 +50,11 @@ pipeline {
         stage('Lint') {
             steps {
                 script {
-                    checkout scm
-                    
-                    withEnv(["NODE_VERSION=latest"]) {
-                        sh '''
-                            npm install
-                            npx prettier --check .
-                            npx next lint
-                        '''
-                    }
+                    sh '''
+                        npm install
+                        npx prettier --check .
+                        npx next lint
+                    '''
                 }
             }
         }
@@ -48,14 +62,10 @@ pipeline {
         stage('Tests') {
             steps {
                 script {
-                    checkout scm
-                    
-                    withEnv(["NODE_VERSION=latest"]) {
-                        sh '''
-                            npm install
-                            npm test
-                        '''
-                    }
+                    sh '''
+                        npm install
+                        npm test
+                    '''
                 }
             }
         }
@@ -68,21 +78,10 @@ pipeline {
             }
             steps {
                 script {
-                    checkout scm
-                    
-                    withEnv([
-                        "NODE_VERSION=latest",
-                        "CONTENTFUL_SPACE_ID=${env.CONTENTFUL_SPACE_ID}",
-                        "CONTENTFUL_ACCESS_TOKEN=${env.CONTENTFUL_ACCESS_TOKEN}"
-                    ]) {
-                        sh '''
-                            npm install
-                            npm run build
-                        '''
-                    }
-                    
-                    archiveArtifacts artifacts: '.next/**, public/**, package.json, next.config.js', 
-                                    onlyIfSuccessful: true
+                    sh '''
+                        npm install
+                        npm run build
+                    '''
                 }
             }
         }
@@ -97,14 +96,9 @@ pipeline {
             }
             steps {
                 script {
-                    checkout scm
-                    
-                    withEnv([
-                        "NODE_VERSION=latest",
-                        "CONTENTFUL_SPACE_ID=${env.CONTENTFUL_SPACE_ID}",
-                        "CONTENTFUL_ACCESS_TOKEN=${env.CONTENTFUL_ACCESS_TOKEN}",
-                        "NETLIFY_SITE_ID=${env.NETLIFY_SITE_ID}",
-                        "NETLIFY_AUTH_TOKEN=${env.NETLIFY_AUTH_TOKEN}"
+                    withCredentials([
+                        string(credentialsId: 'NETLIFY_SITE_ID', variable: 'NETLIFY_SITE_ID'),
+                        string(credentialsId: 'NETLIFY_AUTH_TOKEN', variable: 'NETLIFY_AUTH_TOKEN')
                     ]) {
                         sh '''
                             npm install
@@ -119,6 +113,13 @@ pipeline {
     
     post {
         always {
+            // Clean up sensitive file
+            sh '''
+                if [ -f .env.local ]; then
+                    rm .env.local
+                    echo "🧹 .env.local cleaned up"
+                fi
+            '''
             cleanWs()
         }
         success {
