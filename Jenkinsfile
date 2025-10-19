@@ -21,8 +21,6 @@ pipeline {
                     
                     withEnv(["NODE_VERSION=latest"]) {
                         sh '''
-                            nvm install $NODE_VERSION
-                            nvm use $NODE_VERSION
                             npm install
                             npx husky run pre-commit
                         '''
@@ -38,8 +36,6 @@ pipeline {
                     
                     withEnv(["NODE_VERSION=latest"]) {
                         sh '''
-                            nvm install $NODE_VERSION
-                            nvm use $NODE_VERSION
                             npm install
                             npx prettier --check .
                             npx next lint
@@ -56,8 +52,6 @@ pipeline {
                     
                     withEnv(["NODE_VERSION=latest"]) {
                         sh '''
-                            nvm install $NODE_VERSION
-                            nvm use $NODE_VERSION
                             npm install
                             npm test
                         '''
@@ -82,8 +76,6 @@ pipeline {
                         "CONTENTFUL_ACCESS_TOKEN=${env.CONTENTFUL_ACCESS_TOKEN}"
                     ]) {
                         sh '''
-                            nvm install $NODE_VERSION
-                            nvm use $NODE_VERSION
                             npm install
                             npm run build
                         '''
@@ -115,8 +107,6 @@ pipeline {
                         "NETLIFY_AUTH_TOKEN=${env.NETLIFY_AUTH_TOKEN}"
                     ]) {
                         sh '''
-                            nvm install $NODE_VERSION
-                            nvm use $NODE_VERSION
                             npm install
                             npm install -g netlify-cli
                             npx netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod --dir=.next
